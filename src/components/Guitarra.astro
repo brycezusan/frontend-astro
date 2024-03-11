@@ -1,0 +1,34 @@
+---
+import { Image } from "astro:assets";
+import { formatearMoneda } from "../lib/index";
+export interface Props {
+  nombre: string;
+  image: string;
+  url: string;
+  descripcion: string;
+  price: number;
+}
+
+const { nombre, image, url, price, descripcion } = Astro.props;
+---
+
+<article class="bg-white shadow p-4 rounded grid md:grid-cols-2 items-center w-5/6 mx-auto md:w-full md:m-0">
+  <Image
+    src={image}
+    alt="imagen de guitarra"
+    width={150}
+    height={110}
+    class="mx-auto"
+  />
+  <div class="text-center text-lg space-y-4">
+    <h2 class="text-center font-bold text-xl text-orange-400">{nombre}</h2>
+    <p class="font-bold">{formatearMoneda(price)}</p>
+    <p class="line-clamp-2">{descripcion}</p>
+    <div class="pt-6">
+      <a
+        href={`/guitarras/${url}`}
+        class="block bg-yellow-500 text-sm w-full py-2 rounded-md text-white font-semibold uppercase hover:bg-yellow-600 transition-all">Ver más</a
+      >
+    </div>
+  </div>
+</article>

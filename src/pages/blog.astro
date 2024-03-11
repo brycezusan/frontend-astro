@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Articulo from '../components/Articulo.astro';
+
+const url = `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`
+const respuesta = await fetch(url)
+const {data} = await respuesta.json()
+
+---
+
+<Layout title="guitarLA - Blog" description="GuitarLa ,Tiendita Guitarras , blogs , articulos musicales">
+	<h1 class="title">Blog</h1>
+
+	<section class="blog grid gap-2 md:gap-6 lg:gap-10 md:grid-cols-2 lg:grid-cols-3 py-16">
+		{
+			data?.map( (art: { attributes: {
+createdAt: Date; title: string; url: string; image: { data: { attributes: { url: string; }; }; }; content: { children: { text: string; }[]; }[]; 
+}; })=>(
+				<Articulo 
+					title={art.attributes.title}
+					url={art.attributes.url}
+					imagen={art.attributes.image.data.attributes.url}
+					contenido={art.attributes.content[0].children[0].text}
+					fecha={art.attributes.createdAt}
+				
+				/>
+			))
+		}
+	</section>
+</Layout>

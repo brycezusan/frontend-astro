@@ -1,0 +1,53 @@
+---
+const pathname= Astro.url.pathname
+---
+
+<header class="header">
+  <div class="container mx-auto py-8  flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+    <a href="/">
+      <img src="/img/logo.svg" alt="imagen logotipo" />
+    </a>
+    <nav class="text-white flex justify-center gap-4 font-bold text-lg">
+      <a href="/" class={`${pathname === '/' && 'text-red-600'}`}>Inicio</a>
+      <a href="/blog" class={`${pathname === '/blog' && 'text-red-600'}`}>Blog</a>
+      <a href="/nosotros" class={`${pathname === '/nosotros' && 'text-red-600'}`}>Nosotros</a>
+      <a href="/tienda" class={`${pathname === '/tienda' && 'text-red-600'}`}>Tienda</a>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width={1.5}
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+          ></path>
+        </svg>
+      </a>
+    </nav>
+  </div>
+ 
+  
+</header>
+
+<style>
+  .header {
+    background-image: linear-gradient(
+        to right,
+        rgb(0 0 0 / 0.8),
+        rgb(0 0 0 / 0.7)
+      ),
+      url(../img/header.jpg);
+    padding: 5rem 0;
+    background-position: center;
+    background-size: cover;
+  }
+  .header img {
+    width: 30rem;
+  }
+
+  
+</style>

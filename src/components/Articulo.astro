@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets";
+import { formatearFecha} from "../lib/index"
+
+export interface Props {
+  title: string;
+  url: string;
+  imagen: string;
+  contenido: string;
+  fecha:Date
+}
+
+const { title, url, contenido, imagen , fecha } = Astro.props;
+---
+
+<article class="bg-white shadow rounded-md overflow-hidden articulo">
+  <Image
+    src={imagen}
+    alt={`articulo-${title}`}
+    width={600}
+    height={120}
+    loading="lazy"
+    class="block object-cover "
+  />
+  <div class="p-6 space-y-4">
+    <p class="text-right text-yellow-400 text-sm font-black">{formatearFecha(fecha)}</p>
+    <h2 class="text-xl font-bold truncate">{title}</h2>
+    <p class="line-clamp-3 text-gray-500">{contenido}</p>
+    <div class="pt-4">
+      <a
+        href={`/blog/${url}`}
+        class="bg-orange-300 hover:bg-orange-400 transition-all text-white font-bold uppercase block text-center py-2 rounded-md"
+        >Leer más</a
+      >
+    </div>
+  </div>
+</article>

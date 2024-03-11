@@ -1,0 +1,93 @@
+---
+import Articulo from "../components/Articulo.astro";
+import Guitarra from "../components/Guitarra.astro";
+import Layout from "../layouts/Layout.astro";
+
+const urlGuitarras = `${import.meta.env.PUBLIC_API_URL}/guitarras?populate=image`;
+const urlPosts = `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`;
+const urlCurso = `${import.meta.env.PUBLIC_API_URL}/curso?populate=image`;
+
+const [resGuitarras, resPosts , resCurso] = await Promise.all([
+  fetch(urlGuitarras),
+  fetch(urlPosts),
+	fetch(urlCurso)
+]);
+
+const [{ data: guitarras} ,{data: articulos },{data:curso}] = await Promise.all([
+  resGuitarras.json(),
+  resPosts.json(),
+	resCurso.json()
+]);
+
+
+---
+
+<Layout
+  title="guitarLA - Inicio"
+  description="GuitarLa ,Tiendita Guitarras , blogs , articulos musicales"
+>
+  <h1 class="title">Bienvenidos - GuitarLA</h1>
+  <section class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 my-16">
+    {
+      guitarras?.map(
+        (art: {
+          attributes: {
+            name: string;
+            price: number;
+            url: string;
+            image: string;
+            description: string;
+          };
+        }) => (
+          <Guitarra
+            nombre={art.attributes.name}
+            price={art.attributes.price}
+            url={art.attributes.url}
+            image={art.attributes.image.data.attributes.url}
+            descripcion={art.attributes.description[0].children[0].text}
+          />
+        )
+      )
+    }
+  </section> 
+
+	<section 
+		style={{
+			backgroundImage:`linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5)),url(${curso.attributes.image.data.attributes.url})`,
+			backgroundRepeat:'no-repeat',
+			backgroundSize:'cover'
+		}}
+		class="py-28 my-16 flex flex-col gap-10 md:flex-row md:justify-between p-10 text-white font-bold rounded w-11/12 mx-auto lg:w-full">
+		<div class="md:text-center">
+			<p class="text-center">{curso.attributes.title}</p>
+			<p class="text-2xl">Aprovecha Nuestras Ofertas 30% - descuento</p>
+		</div>
+		<p class="text-sm max-w-[460px] text-center md:w-1/2">{curso.attributes.content[0].children[0].text}</p>
+	</section>
+
+  <section
+    class="blog grid gap-2 md:gap-6 lg:gap-10 md:grid-cols-2 lg:grid-cols-3 py-16"
+  >
+    {
+      articulos?.map(
+        (art: {
+          attributes: {
+            createdAt: Date;
+            title: string;
+            url: string;
+            image: { data: { attributes: { url: string } } };
+            content: { children: { text: string }[] }[];
+          };
+        }) => (
+          <Articulo
+            title={art.attributes.title}
+            url={art.attributes.url}
+            imagen={art.attributes.image.data.attributes.url}
+            contenido={art.attributes.content[0].children[0].text}
+            fecha={art.attributes.createdAt}
+          />
+        )
+      )
+    }
+  </section>
+</Layout>

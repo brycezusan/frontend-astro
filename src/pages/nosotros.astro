@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+import NosotrosImage from "../img/nosotros.jpg";
+import { Image } from "astro:assets";
+---
+
+<Layout
+  title="guitarLA - Nosotros"
+  description="GuitarLa ,Tiendita Guitarras , blogs , articulos musicales"
+>
+  <h1 class="title">Nosotros</h1>
+
+  <section class="grid lg:grid-cols-2 gap-10 mt-10 lg:items-center">
+    <Image
+      src={NosotrosImage}
+      alt="nosotros image"
+      class="block mx-auto"
+      width={600}
+      height={120}
+    />
+
+    <section class="text-center w-5/6 lg:w-full mx-auto space-y-6 lg:text-left">
+      <h2 class="text-center text-2xl font-bold text-orange-500 lg:text-left">
+        Guitar La
+      </h2>
+      <p>
+        ¡Bienvenido/a a nuestra tienda de artículos musicales! Nos complace
+        presentarte nuestra pasión por la música y ofrecerte una amplia gama de
+        productos y servicios para satisfacer todas tus necesidades musicales.
+      </p>
+
+      <h3 class="text-center text-2xl font-bold text-slate-700 lg:text-left">
+        Nuestra Historia
+      </h3>
+      <p>
+        Desde nuestra fundación en 1999, nos hemos dedicado a brindar a nuestros
+        clientes una experiencia excepcional en el mundo de la música. Nos
+        enorgullece haber construido una reputación sólida y duradera como uno
+        de los principales proveedores de artículos musicales en nuestra
+        comunidad.
+      </p>
+      <h3 class="text-center text-2xl font-bold text-slate-700 lg:text-left">
+        Nuestro Compromiso
+      </h3>
+      <p>
+        En nuestra tienda, nos comprometemos a ofrecerte productos de alta
+        calidad, desde instrumentos musicales hasta equipos de grabación,
+        accesorios y mucho más. Trabajamos arduamente para mantenernos
+        actualizados con las últimas tendencias y avances tecnológicos en el
+        mundo musical, para que siempre encuentres lo que buscas.
+      </p>
+    </section>
+  </section>
+</Layout>

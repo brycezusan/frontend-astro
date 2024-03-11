@@ -1,0 +1,46 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+import Layout from "../../layouts/Layout.astro";
+import { formatearFecha } from "../../lib/index";
+
+export const getStaticPaths = (async() => {
+  const url =`${import.meta.env.PUBLIC_API_URL}/posts?populate=image`;
+  const respuesta = await fetch(url)
+  const {data}= await respuesta.json()
+  return data.map((art)=>({
+    params:{
+      id:art.attributes.url
+    },
+    props:{
+      articulo:art.attributes
+    }
+  }));
+}) satisfies GetStaticPaths;
+
+const {id} = Astro.params
+const {articulo} = Astro.props
+const {title , content , image , createdAt} = articulo
+const imagen = image.data?.attributes?.url;
+const texto = content[0]?.children[0]?.text;
+
+
+---
+<Layout title=`guitarLA - ${id}` description="leer articulo,aprendizaje ,enseñanza">
+  <h1 class="title">{title}</h1>
+
+  <article class="bg-white rounded-md shadow w-11/12 mx-auto md:w-5/6 lg:w-2/3 overflow-hidden my-16 lg:p-8 grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-10">
+    <Image src={imagen} width={600} height={220} alt={`imagen-${title}`} class="mx-auto block object-cover"/>
+    <div class="space-y-4 px-6">
+      <h2 class="text-center text-2xl font-black text-yellow-300">{title}</h2>
+      <p class="text-right text-slate-500 font-medium">{formatearFecha(createdAt)}</p>
+      <p class="font-medium text-slate-800">{texto}</p>
+      <div class="pt-2 flex justify-end">
+        <a href="/blog" class="py-2 px-4 bg-blue-400 rounded-md text-white font-bold">Ir a Articulos</a>
+      </div>
+    </div>
+  </article>
+
+</Layout>
+
+
