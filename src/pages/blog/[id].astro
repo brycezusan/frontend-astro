@@ -3,11 +3,12 @@ import type { GetStaticPaths } from "astro";
 import { Image } from "astro:assets";
 import Layout from "../../layouts/Layout.astro";
 import { formatearFecha } from "../../lib/index";
+import { type APIResponseBlogs} from "../../types/apiBlogs"
 
 export const getStaticPaths = (async() => {
   const url =`${import.meta.env.PUBLIC_API_URL}/posts?populate=image`;
   const respuesta = await fetch(url)
-  const {data}= await respuesta.json()
+  const {data}= (await respuesta.json()) as APIResponseBlogs
   return data.map((art)=>({
     params:{
       id:art.attributes.url
