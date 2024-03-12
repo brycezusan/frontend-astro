@@ -1,11 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Guitarra from "../components/Guitarra.astro"
+import {type APIResponseGuitars} from "../types/apiGuitars"
 
 const url = `${import.meta.env.PUBLIC_API_URL}/guitarras?populate=image`
 
 const respuesta = await fetch(url)
-const {data} = await respuesta.json()
+const {data:guitarras}= (await respuesta.json()) as APIResponseGuitars
+
 ---
 
 <Layout title="guitarLA - Tienda" description="GuitarLa ,Tiendita Guitarras , blogs , articulos musicales">
@@ -13,7 +15,7 @@ const {data} = await respuesta.json()
 
 	<section class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 my-16">
 		{
-			data?.map( (art: { attributes: { name: string; price: number; url: string; image: string; description: string; }; })=>(
+			guitarras?.map( (art)=>(
 				<Guitarra 
 					nombre = {art.attributes.name}
 					price = {art.attributes.price}
@@ -25,3 +27,4 @@ const {data} = await respuesta.json()
 		}
 	</section>
 </Layout>
+../types/apiGuitars

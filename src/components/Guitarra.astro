@@ -3,9 +3,9 @@ import { Image } from "astro:assets";
 import { formatearMoneda } from "../lib/index";
 export interface Props {
   nombre: string;
-  image: string;
+  image: string ;
   url: string;
-  descripcion: string;
+  descripcion: string | undefined;
   price: number;
 }
 

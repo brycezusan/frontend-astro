@@ -1,10 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Articulo from '../components/Articulo.astro';
+import { type APIResponseBlogs} from "../types/apiBlogs"
 
 const url = `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`
 const respuesta = await fetch(url)
-const {data} = await respuesta.json()
+const {data : articulos} = (await respuesta.json()) as APIResponseBlogs
 
 ---
 
@@ -13,9 +14,7 @@ const {data} = await respuesta.json()
 
 	<section class="blog grid gap-2 md:gap-6 lg:gap-10 md:grid-cols-2 lg:grid-cols-3 py-16">
 		{
-			data?.map( (art: { attributes: {
-createdAt: Date; title: string; url: string; image: { data: { attributes: { url: string; }; }; }; content: { children: { text: string; }[]; }[]; 
-}; })=>(
+			articulos?.map( (art)=>(
 				<Articulo 
 					title={art.attributes.title}
 					url={art.attributes.url}

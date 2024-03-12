@@ -2,6 +2,7 @@
 import Articulo from "../components/Articulo.astro";
 import Guitarra from "../components/Guitarra.astro";
 import Layout from "../layouts/Layout.astro";
+import {type APIResponseGuitars} from "../types/apiGuitars"
 
 const urlGuitarras = `${import.meta.env.PUBLIC_API_URL}/guitarras?populate=image`;
 const urlPosts = `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`;
@@ -14,7 +15,7 @@ const [resGuitarras, resPosts , resCurso] = await Promise.all([
 ]);
 
 const [{ data: guitarras} ,{data: articulos },{data:curso}] = await Promise.all([
-  resGuitarras.json(),
+  (resGuitarras.json()) as unknown as APIResponseGuitars,
   resPosts.json(),
 	resCurso.json()
 ]);
@@ -30,15 +31,7 @@ const [{ data: guitarras} ,{data: articulos },{data:curso}] = await Promise.all(
   <section class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 my-16">
     {
       guitarras?.map(
-        (art: {
-          attributes: {
-            name: string;
-            price: number;
-            url: string;
-            image: string;
-            description: string;
-          };
-        }) => (
+        (art) => (
           <Guitarra
             nombre={art.attributes.name}
             price={art.attributes.price}
